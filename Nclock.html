@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>12-Hour Clock with Centiseconds</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Courier New', monospace; /* Use a monospaced font */
+      background-color: #111; /* Dark background color */
+      color: #fff; /* White text color */
+    }
+
+    #clock-container {
+      display: flex;
+      align-items: center;
+    }
+
+    #clock {
+      font-size: 4em; /* 200% of 2em */
+    }
+
+    #ampm-container {
+      display: flex;
+      flex-shrink: 0; /* Prevent flex container from shrinking */
+      margin-left: 5px; /* Adjust the margin to create spacing */
+    }
+
+    #ampm {
+      font-size: 1.6em; /* 200% of 0.8em */
+    }
+
+    #date {
+      font-size: 1.6em; /* 200% of 0.8em */
+    }
+  </style>
+</head>
+<body>
+  <div id="clock-container">
+    <div id="clock"></div>
+    <div id="ampm-container">
+      <div id="ampm"></div>
+    </div>
+  </div>
+  <div id="date"></div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours() % 12 || 12;
+      const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
+      const minutes = addLeadingZero(now.getMinutes());
+      const seconds = addLeadingZero(now.getSeconds());
+      const centiseconds = addLeadingZero(Math.floor(now.getMilliseconds() / 10));
+      const date = now.toDateString();
+
+      const timeString = `${hours}:${minutes}:${seconds}.${centiseconds}`;
+      const ampmString = `${ampm}`;
+      const dateString = `${date}`;
+
+      document.getElementById('clock').textContent = timeString;
+      document.getElementById('ampm').textContent = ampmString;
+      document.getElementById('date').textContent = dateString;
+
+      setTimeout(updateClock, 10);
+    }
+
+    function addLeadingZero(number) {
+      return number < 10 ? '0' + number : number;
+    }
+
+    updateClock(); // Initial call to display the clock immediately
+  </script>
+</body>
+</html>
